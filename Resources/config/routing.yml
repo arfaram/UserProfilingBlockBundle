@@ -1,0 +1,5 @@
+user_preferences:
+    path: /user/preferences
+    defaults:
+        _controller: ezuserprofilingblock.controller.user_profile_controller:showPreferencesAction
+    methods: [GET, POST]

@@ -1,0 +1,8 @@
+system:
+    default:
+        content_view:
+            block_item:
+                article:
+                    template: "EzUserProfilingBlockBundle:block_item:product_item.html.twig"
+                    match:
+                        Identifier\ContentType: [product_item, blog_post]

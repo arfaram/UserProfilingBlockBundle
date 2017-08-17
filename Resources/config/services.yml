@@ -1,0 +1,41 @@
+services:
+    ez_user_profiling_block.user.user_interests:
+        class: Ez\UserProfilingBlockBundle\User\UserInterests
+        arguments:
+            - "@security.token_storage"
+            - '@ezpublish.api.service.content'
+            - '@ezpublish.api.service.content_type'
+            - '@ezpublish.api.service.user'
+            - '@form_builder.permission_resolver'
+            - '@ezpublish.api.service.tags'
+
+    ez_user_profiling_block.twig.user_tags_extension:
+        class: Ez\UserProfilingBlockBundle\Twig\UserTagsExtension
+        arguments:
+            - "@ez_user_profiling_block.user.user_interests"
+        tags:
+            - { name: twig.extension }
+
+    ez_user_profiling_block.block.userprofiling:
+        class: Ez\UserProfilingBlockBundle\Block\UserProfilingBlock
+        arguments:
+            - '@ezpublish.api.service.content'
+            - '@ezpublish.api.service.tags'
+        tags:
+            - { name: landing_page_field_type.block_type, alias: userprofiling }
+
+    ez_user_profiling_block.controller.user_profile_controller:
+        class: Ez\UserProfilingBlockBundle\Controller\UserProfileController
+        arguments:
+            - "@templating"
+            - "@form.factory"
+            - "@security.token_storage"
+            - "@router"
+            - "@eztags.api.service.tags"
+            - "@ez_user_profiling_block.user.user_interests"
+
+    ez_user_profiling_block.form.type.user_preferences:
+        class: Ez\UserProfilingBlockBundle\Form\Type\UserPreferencesType
+        arguments: ["@ez_user_profiling_block.user.user_interests"]
+        tags:
+            - { name: form.type }

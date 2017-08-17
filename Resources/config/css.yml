@@ -1,0 +1,5 @@
+system:
+    default:
+        css:
+            files:
+                - '@EzUserProfilingBlockBundle/Resources/public/css/blocks/userprofiling.css'
