@@ -1,6 +1,6 @@
 blocks:
     userprofiling:
         views:
-            userprofiling:
+            default:
                 template: EzUserProfilingBlockBundle:blocks:userprofiling.html.twig
                 name: User Profiling Block view
