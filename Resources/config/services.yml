@@ -1,3 +1,5 @@
+parameters:
+    user_interest_field_identifier: 'interests'
 services:
     ez_user_profiling_block.user.user_interests:
         class: Ez\UserProfilingBlockBundle\User\UserInterests
@@ -8,6 +10,7 @@ services:
             - '@ezpublish.api.service.user'
             - '@form_builder.permission_resolver'
             - '@ezpublish.api.service.tags'
+            - "%user_interest_field_identifier%"
 
     ez_user_profiling_block.twig.user_tags_extension:
         class: Ez\UserProfilingBlockBundle\Twig\UserTagsExtension

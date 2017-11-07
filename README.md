@@ -49,19 +49,19 @@ php app/console cache:clear
 - Create "User Segments" keywords tree in the UI using the Netgen Tags Bundle.
 
 <img src="doc/01_User_Segments_tags_bundle.png">
-```
-**PLEASE NOTE THE PARENT "USER SEGMENTS" ID FOR LATER SETTING**
 
-
-- Add new Tag FieldType to the user ContentType. The FieldType identifier **should be** for now called "interests" . The identifier will be used in _UserInterests->getFieldValueForLoggedUser() method_. ##ToDo: we can move it later to parameters##
-
-<img src="doc/02_User_ContentType_Interests.png">
-
-- Change the _subtree_ id in _Resources/public/js/views/up-itemsfieldview.js_ (~ Line 137) ## ToDo: move it later to parameters ##
+- Change the _subtreeLimit_ value with the your Tag ID (see above image) in _Resources/public/js/views/up-itemsfieldview.js_ (~ Line 137) 
 
 ```
 subtreeLimit: xx,
 ```
+
+- Add new Tags FieldType to the user ContentType. The FieldType identifier **should be** added in services.yml using the _'user_interest_field_identifier'_ parameter.
+
+
+<img src="doc/02_User_ContentType_Interests.png">
+
+
 ### Template settings
 - In config/ezdemo.yml you should add the ContentType that will be used and displayed later with the user profiling block (default:'product_item' and 'blog_post')
 

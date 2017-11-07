@@ -33,6 +33,8 @@ class UserInterests
     /** @var \Netgen\TagsBundle\API\Repository\TagsService */
     private $tagsService;
 
+    private $userInterestFieldIdentifier;
+
     /**
      * @param \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $tokenStorage
      * @param \eZ\Publish\API\Repository\ContentService $contentService
@@ -47,7 +49,8 @@ class UserInterests
         ContentTypeService $contentTypeService,
         UserService $userService,
         PermissionResolver $permissionResolver,
-        TagsService $tagsService
+        TagsService $tagsService,
+        $userInterestFieldIdentifier
     ) {
         $this->tokenStorage = $tokenStorage;
         $this->contentService = $contentService;
@@ -55,6 +58,8 @@ class UserInterests
         $this->userService = $userService;
         $this->permissionResolver = $permissionResolver;
         $this->tagsService = $tagsService;
+        $this->userInterestFieldIdentifier = $userInterestFieldIdentifier;
+
     }
 
     /**
@@ -82,7 +87,7 @@ class UserInterests
     {
         $subTreeLimit = $this->contentTypeService
                 ->loadContentTypeByIdentifier('user')
-                ->getFieldDefinition('interests')
+                ->getFieldDefinition($this->userInterestFieldIdentifier)
                 ->validatorConfiguration['TagsValueValidator']['subTreeLimit'];
 
         $userInterestsTags = $this->tagsService->loadTagChildren(
@@ -113,7 +118,7 @@ class UserInterests
         $updatedTags->tags = $this->loadTagsByTagsIds($tagsIdsList);
 
         $contentUpdateStruct = $this->contentService->newContentUpdateStruct();
-        $contentUpdateStruct->setField('interests', $updatedTags);
+        $contentUpdateStruct->setField($this->userInterestFieldIdentifier, $updatedTags);
 
         $userUpdateStruct = $this->userService->newUserUpdateStruct();
         $userUpdateStruct->contentUpdateStruct = $contentUpdateStruct;
@@ -146,7 +151,7 @@ class UserInterests
         if (!$currentUser = $this->getCurrentApiUser()) {
             throw new AccessDeniedException();
         }
-        return $currentUser->content->getField('interests')->value;
+        return $currentUser->content->getField($this->userInterestFieldIdentifier)->value;
     }
 
     /**
